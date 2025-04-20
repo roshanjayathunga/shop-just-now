@@ -1,35 +1,41 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
-import { Minus, Plus, Trash2, ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import Header from "@/components/header"
-import { useCart } from "@/lib/cart-context"
-import Link from "next/link"
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { Minus, Plus, Trash2, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import Header from "@/components/header";
+import { useCart } from "@/lib/cart-context";
+import Link from "next/link";
+
+// Add this for static export
+export const dynamic = "force-static";
 
 export default function CartPage() {
-  const router = useRouter()
-  const { cart, updateQuantity, removeFromCart, clearCart } = useCart()
+  const router = useRouter();
+  const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
 
   useEffect(() => {
     // Check if user is logged in
-    const user = localStorage.getItem("currentUser")
+    const user = localStorage.getItem("currentUser");
     if (!user) {
-      router.push("/")
+      router.push("/");
     }
-  }, [router])
+  }, [router]);
 
-  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
-  const tax = subtotal * 0.08 // 8% tax
-  const shipping = subtotal > 0 ? 5.99 : 0
-  const total = subtotal + tax + shipping
+  const subtotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const tax = subtotal * 0.08; // 8% tax
+  const shipping = subtotal > 0 ? 5.99 : 0;
+  const total = subtotal + tax + shipping;
 
   const handleCheckout = () => {
-    router.push("/checkout")
-  }
+    router.push("/checkout");
+  };
 
   if (cart.length === 0) {
     return (
@@ -45,7 +51,7 @@ export default function CartPage() {
           </div>
         </main>
       </div>
-    )
+    );
   }
 
   return (
@@ -60,9 +66,15 @@ export default function CartPage() {
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg font-semibold">
-                    Cart Items ({cart.reduce((total, item) => total + item.quantity, 0)})
+                    Cart Items (
+                    {cart.reduce((total, item) => total + item.quantity, 0)})
                   </h2>
-                  <Button variant="ghost" size="sm" onClick={clearCart} className="text-red-500 hover:text-red-700">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearCart}
+                    className="text-red-500 hover:text-red-700"
+                  >
                     Clear Cart
                   </Button>
                 </div>
@@ -71,21 +83,34 @@ export default function CartPage() {
                   <div key={item.id} className="py-4">
                     <div className="flex items-center gap-4">
                       <div className="relative h-20 w-20 overflow-hidden rounded bg-gray-100">
-                        <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
+                        <Image
+                          src={item.image || "/placeholder.svg"}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="80px"
+                        />
                       </div>
 
                       <div className="flex-1">
-                        <Link href={`/products/${item.id}`} className="font-medium hover:underline">
+                        <Link
+                          href={`/products/${item.id}`}
+                          className="font-medium hover:underline"
+                        >
                           {item.name}
                         </Link>
-                        <p className="text-sm text-gray-500">${item.price.toFixed(2)}</p>
+                        <p className="text-sm text-gray-500">
+                          ${item.price.toFixed(2)}
+                        </p>
                       </div>
 
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
                           size="icon"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity - 1)
+                          }
                           disabled={item.quantity <= 1}
                           className="h-8 w-8"
                         >
@@ -95,7 +120,9 @@ export default function CartPage() {
                         <Button
                           variant="outline"
                           size="icon"
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
                           disabled={item.quantity >= item.inventory}
                           className="h-8 w-8"
                         >
@@ -104,7 +131,9 @@ export default function CartPage() {
                       </div>
 
                       <div className="text-right">
-                        <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                        <p className="font-medium">
+                          ${(item.price * item.quantity).toFixed(2)}
+                        </p>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -163,5 +192,5 @@ export default function CartPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
