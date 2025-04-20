@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SwiftShop - E-commerce Demo",
+  title: "ShopJustNow - E-commerce Demo",
   description:
     "A demo e-commerce application for testing with Selenium WebDriver",
 };

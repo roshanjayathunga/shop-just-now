@@ -53,7 +53,9 @@ export default function Header({ onSearch }: HeaderProps) {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href={getBasePath("/products")} className="flex items-center">
-              <span className="text-xl font-bold text-gray-900">SwiftShop</span>
+              <span className="text-xl font-bold text-gray-900">
+                Shop Just Now
+              </span>
             </Link>
           </div>
 
