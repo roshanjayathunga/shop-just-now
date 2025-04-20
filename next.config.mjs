@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  output: "export",
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -9,6 +11,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-}
+  basePath: process.env.NODE_ENV === "production" ? "/shop-just-now" : "",
+  assetPrefix: process.env.NODE_ENV === "production" ? "/shop-just-now/" : "",
+  trailingSlash: true,
+};
 
-export default nextConfig
+module.exports = nextConfig;
