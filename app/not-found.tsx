@@ -15,8 +15,8 @@ export default function NotFound() {
 
     // If we're on GitHub Pages, the path will include the repo name
     // We need to handle this for client-side routing
-    if (path.includes("/your-repo-name/")) {
-      const relativePath = path.replace("/your-repo-name", "");
+    if (path.includes("/shop-just-now/")) {
+      const relativePath = path.replace("/shop-just-now", "");
       if (relativePath !== "/404.html") {
         router.push(relativePath);
       }

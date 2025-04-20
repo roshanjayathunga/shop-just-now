@@ -12,8 +12,8 @@ const nextConfig = {
     unoptimized: true,
   },
   // Make sure to replace 'your-repo-name' with your actual repository name
-  basePath: process.env.NODE_ENV === "production" ? "/your-repo-name" : "",
-  assetPrefix: process.env.NODE_ENV === "production" ? "/your-repo-name/" : "",
+  basePath: process.env.NODE_ENV === "production" ? "/shop-just-now" : "",
+  assetPrefix: process.env.NODE_ENV === "production" ? "/shop-just-now/" : "",
   trailingSlash: true,
 };
 

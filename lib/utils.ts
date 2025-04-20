@@ -13,5 +13,5 @@ export function getBasePath(path: string): string {
   }
 
   // In production (GitHub Pages), prepend the repo name
-  return `/your-repo-name${path}`;
+  return `/shop-just-now${path}`;
 }
