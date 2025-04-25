@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { LockOpenIcon as LockClosedIcon } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { LockOpenIcon as LockClosedIcon } from "lucide-react";
 
 export default function LoginForm() {
-  const router = useRouter()
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // Check credentials against predefined users
     const users = [
@@ -25,26 +25,31 @@ export default function LoginForm() {
       { username: "locked_out_user", password: "secret_sauce" },
       { username: "problem_user", password: "secret_sauce" },
       { username: "performance_glitch_user", password: "secret_sauce" },
-    ]
+    ];
 
-    const user = users.find((u) => u.username === username && u.password === password)
+    const user = users.find(
+      (u) => u.username === username && u.password === password
+    );
 
     if (user) {
       // Store user in localStorage
-      localStorage.setItem("currentUser", JSON.stringify({ username: user.username }))
-      router.push("/products")
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({ username: user.username })
+      );
+      router.push("/products");
     } else if (username === "locked_out_user" && password === "secret_sauce") {
-      setError("This user has been locked out.")
+      setError("This user has been locked out.");
     } else {
-      setError("Username and password do not match any user in this service")
+      setError("Username and password do not match any user in this service");
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 space-y-6">
       {error && (
         <Alert variant="destructive">
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription id="login-error">{error}</AlertDescription>
         </Alert>
       )}
 
@@ -89,11 +94,14 @@ export default function LoginForm() {
           className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
         >
           <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-            <LockClosedIcon className="h-5 w-5 text-primary-foreground" aria-hidden="true" />
+            <LockClosedIcon
+              className="h-5 w-5 text-primary-foreground"
+              aria-hidden="true"
+            />
           </span>
           Sign in
         </Button>
       </div>
     </form>
-  )
+  );
 }

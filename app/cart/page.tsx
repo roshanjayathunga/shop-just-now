@@ -106,6 +106,7 @@ export default function CartPage() {
 
                       <div className="flex items-center gap-2">
                         <Button
+                          id="decrease-quantity-button"
                           variant="outline"
                           size="icon"
                           onClick={() =>
@@ -116,8 +117,14 @@ export default function CartPage() {
                         >
                           <Minus className="h-3 w-3" />
                         </Button>
-                        <span className="w-8 text-center">{item.quantity}</span>
+                        <span
+                          id="total-items-count"
+                          className="w-8 text-center"
+                        >
+                          {item.quantity}
+                        </span>
                         <Button
+                          id="increase-quantity-button"
                           variant="outline"
                           size="icon"
                           onClick={() =>

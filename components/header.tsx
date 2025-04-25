@@ -66,13 +66,19 @@ export default function Header({ onSearch }: HeaderProps) {
               className="flex w-full max-w-sm items-center space-x-2"
             >
               <Input
+                id="product-search-input"
                 type="search"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-64"
               />
-              <Button type="submit" size="icon" variant="ghost">
+              <Button
+                id="product-search-button"
+                type="submit"
+                size="icon"
+                variant="ghost"
+              >
                 <Search className="h-4 w-4" />
                 <span className="sr-only">Search</span>
               </Button>
@@ -81,7 +87,7 @@ export default function Header({ onSearch }: HeaderProps) {
 
           <div className="hidden md:flex items-center space-x-4">
             <Link href="/cart" className="relative">
-              <Button variant="ghost" size="icon">
+              <Button id="header-cart-button" variant="ghost" size="icon">
                 <ShoppingCart className="h-5 w-5" />
                 {totalItems > 0 && (
                   <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0">
@@ -124,12 +130,18 @@ export default function Header({ onSearch }: HeaderProps) {
                     className="flex items-center space-x-2"
                   >
                     <Input
+                      id="product-search-input-mobile"
                       type="search"
                       placeholder="Search products..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <Button type="submit" size="icon" variant="ghost">
+                    <Button
+                      id="product-search-button-mobile"
+                      type="submit"
+                      size="icon"
+                      variant="ghost"
+                    >
                       <Search className="h-4 w-4" />
                     </Button>
                   </form>
