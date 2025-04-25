@@ -182,7 +182,11 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Button onClick={handleCheckout} className="w-full mt-6">
+              <Button
+                id="proceed-to-checkout-button"
+                onClick={handleCheckout}
+                className="w-full mt-6"
+              >
                 Proceed to Checkout
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>

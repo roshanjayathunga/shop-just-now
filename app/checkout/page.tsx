@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Checkbox } from "@/components/ui/checkbox"
-import Header from "@/components/header"
-import { useCart } from "@/lib/cart-context"
-import { ArrowLeft, CreditCard, Truck } from "lucide-react"
-import Link from "next/link"
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import Header from "@/components/header";
+import { useCart } from "@/lib/cart-context";
+import { ArrowLeft, CreditCard, Truck } from "lucide-react";
+import Link from "next/link";
 
 export default function CheckoutPage() {
-  const router = useRouter()
-  const { cart, clearCart } = useCart()
+  const router = useRouter();
+  const { cart, clearCart } = useCart();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -29,76 +29,79 @@ export default function CheckoutPage() {
     country: "United States",
     paymentMethod: "credit-card",
     saveInfo: false,
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     // Check if user is logged in
-    const user = localStorage.getItem("currentUser")
+    const user = localStorage.getItem("currentUser");
     if (!user) {
-      router.push("/")
-      return
+      router.push("/");
+      return;
     }
 
     // Check if cart is empty
     if (cart.length === 0) {
-      router.push("/products")
+      router.push("/products");
     }
-  }, [cart.length, router])
+  }, [cart.length, router]);
 
-  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
-  const tax = subtotal * 0.08 // 8% tax
-  const shipping = subtotal > 0 ? 5.99 : 0
-  const total = subtotal + tax + shipping
+  const subtotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const tax = subtotal * 0.08; // 8% tax
+  const shipping = subtotal > 0 ? 5.99 : 0;
+  const total = subtotal + tax + shipping;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
-    })
-  }
+    });
+  };
 
   const handleCheckboxChange = (checked: boolean) => {
     setFormData({
       ...formData,
       saveInfo: checked,
-    })
-  }
+    });
+  };
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
-    if (!formData.firstName) newErrors.firstName = "First name is required"
-    if (!formData.lastName) newErrors.lastName = "Last name is required"
+    if (!formData.firstName) newErrors.firstName = "First name is required";
+    if (!formData.lastName) newErrors.lastName = "Last name is required";
     if (!formData.email) {
-      newErrors.email = "Email is required"
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid"
+      newErrors.email = "Email is invalid";
     }
-    if (!formData.address) newErrors.address = "Address is required"
-    if (!formData.city) newErrors.city = "City is required"
-    if (!formData.state) newErrors.state = "State is required"
-    if (!formData.zipCode) newErrors.zipCode = "ZIP code is required"
+    if (!formData.address) newErrors.address = "Address is required";
+    if (!formData.city) newErrors.city = "City is required";
+    if (!formData.state) newErrors.state = "State is required";
+    if (!formData.zipCode) newErrors.zipCode = "ZIP code is required";
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateForm()) {
-      return
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     // Simulate API call
     setTimeout(() => {
       // Create order in localStorage
-      const orders = JSON.parse(localStorage.getItem("orders") || "[]")
+      const orders = JSON.parse(localStorage.getItem("orders") || "[]");
       const newOrder = {
         id: Date.now(),
         items: cart,
@@ -114,18 +117,18 @@ export default function CheckoutPage() {
           country: formData.country,
         },
         status: "Processing",
-      }
+      };
 
-      orders.push(newOrder)
-      localStorage.setItem("orders", JSON.stringify(orders))
+      orders.push(newOrder);
+      localStorage.setItem("orders", JSON.stringify(orders));
 
       // Clear cart
-      clearCart()
+      clearCart();
 
       // Redirect to confirmation page
-      router.push(`/checkout/confirmation?orderId=${newOrder.id}`)
-    }, 1500)
-  }
+      router.push(`/checkout/confirmation?orderId=${newOrder.id}`);
+    }, 1500);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -142,8 +145,13 @@ export default function CheckoutPage() {
 
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-semibold mb-4">Shipping Information</h2>
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white rounded-lg shadow p-6"
+            >
+              <h2 className="text-lg font-semibold mb-4">
+                Shipping Information
+              </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
@@ -155,7 +163,11 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     className={errors.firstName ? "border-red-500" : ""}
                   />
-                  {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
+                  {errors.firstName && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.firstName}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="lastName">Last Name</Label>
@@ -166,7 +178,11 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     className={errors.lastName ? "border-red-500" : ""}
                   />
-                  {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
+                  {errors.lastName && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.lastName}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -180,7 +196,9 @@ export default function CheckoutPage() {
                   onChange={handleInputChange}
                   className={errors.email ? "border-red-500" : ""}
                 />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
               </div>
 
               <div className="mb-4">
@@ -192,7 +210,9 @@ export default function CheckoutPage() {
                   onChange={handleInputChange}
                   className={errors.address ? "border-red-500" : ""}
                 />
-                {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+                {errors.address && (
+                  <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -205,7 +225,9 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     className={errors.city ? "border-red-500" : ""}
                   />
-                  {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+                  {errors.city && (
+                    <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="state">State</Label>
@@ -216,7 +238,9 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     className={errors.state ? "border-red-500" : ""}
                   />
-                  {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state}</p>}
+                  {errors.state && (
+                    <p className="text-red-500 text-sm mt-1">{errors.state}</p>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="zipCode">ZIP Code</Label>
@@ -227,13 +251,22 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     className={errors.zipCode ? "border-red-500" : ""}
                   />
-                  {errors.zipCode && <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>}
+                  {errors.zipCode && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.zipCode}
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="mb-6">
                 <Label htmlFor="country">Country</Label>
-                <Input id="country" name="country" value={formData.country} onChange={handleInputChange} />
+                <Input
+                  id="country"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                />
               </div>
 
               <Separator className="my-6" />
@@ -242,7 +275,9 @@ export default function CheckoutPage() {
 
               <RadioGroup
                 value={formData.paymentMethod}
-                onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, paymentMethod: value })
+                }
                 className="mb-6"
               >
                 <div className="flex items-center space-x-2 mb-2">
@@ -278,11 +313,22 @@ export default function CheckoutPage() {
               )}
 
               <div className="flex items-center space-x-2 mb-6">
-                <Checkbox id="saveInfo" checked={formData.saveInfo} onCheckedChange={handleCheckboxChange} />
-                <Label htmlFor="saveInfo">Save this information for next time</Label>
+                <Checkbox
+                  id="saveInfo"
+                  checked={formData.saveInfo}
+                  onCheckedChange={handleCheckboxChange}
+                />
+                <Label htmlFor="saveInfo">
+                  Save this information for next time
+                </Label>
               </div>
 
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
+              <Button
+                id="submit-order-button"
+                type="submit"
+                className="w-full"
+                disabled={isSubmitting}
+              >
                 {isSubmitting ? "Processing..." : "Place Order"}
               </Button>
             </form>
@@ -296,7 +342,8 @@ export default function CheckoutPage() {
                 {cart.map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <span className="flex-1">
-                      {item.name} <span className="text-gray-500">x{item.quantity}</span>
+                      {item.name}{" "}
+                      <span className="text-gray-500">x{item.quantity}</span>
                     </span>
                     <span>${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
@@ -334,5 +381,5 @@ export default function CheckoutPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

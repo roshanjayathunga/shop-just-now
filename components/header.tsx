@@ -102,6 +102,7 @@ export default function Header({ onSearch }: HeaderProps) {
               </Button>
             </Link>
             <Button
+              id="header-logout-button"
               variant="ghost"
               size="sm"
               onClick={handleLogout}
