@@ -1,3 +1,5 @@
+DEMO PROJECT FOR TESTING PURPOSES
+
 **Standard User**: username: `standard_user`, password: `secret_sauce`
 **Locked Out User**: username: `locked_out_user`, password: `secret_sauce`
 **Problem User**: username: `problem_user`, password: `secret_sauce`
